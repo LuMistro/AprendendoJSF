@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import sc.senac.br.cadastropessoa.dao.PessoaDao;
 import sc.senac.br.cadastropessoa.model.Pessoa;
 
 @ViewScoped
@@ -16,10 +17,12 @@ public class CadastroPessoaController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Pessoa pessoa = new Pessoa();
+	private PessoaDao dao = new PessoaDao();
 	private List<Pessoa> pessoas = new ArrayList<>();
 
 	public void cadastrar() {
 		pessoas.add(pessoa);
+		dao.salvar(pessoa);
 		pessoa = new Pessoa();
 	}
 
@@ -36,7 +39,7 @@ public class CadastroPessoaController implements Serializable {
 	}
 
 	public List<Pessoa> getPessoas() {
-		return pessoas;
+		return dao.getList();
 	}
 
 }
