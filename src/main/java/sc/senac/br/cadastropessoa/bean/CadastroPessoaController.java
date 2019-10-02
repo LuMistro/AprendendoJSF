@@ -16,9 +16,15 @@ public class CadastroPessoaController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Pessoa pessoa = new Pessoa();
-	private PessoaDao dao = new PessoaDao();
-	private List<Pessoa> pessoas = new ArrayList<>();
+	private Pessoa pessoa;
+	private PessoaDao dao;
+	private List<Pessoa> pessoas;
+	
+	public CadastroPessoaController() {
+		pessoa = new Pessoa();
+		dao = new PessoaDao();
+		pessoas = new ArrayList<>();
+	}
 
 	public void cadastrar() {
 		pessoas.add(pessoa);
@@ -39,7 +45,7 @@ public class CadastroPessoaController implements Serializable {
 	}
 
 	public List<Pessoa> getPessoas() {
-		return dao.getList();
+		return pessoas;
 	}
 
 }
