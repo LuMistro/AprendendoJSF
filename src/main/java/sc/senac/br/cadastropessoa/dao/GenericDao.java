@@ -57,7 +57,7 @@ public abstract class GenericDao<T, I extends Serializable> {
 		query.from(persistedClass);
 		return entityManager.createQuery(query).getResultList();
 	}
-
+	
 	public T encontrar(I id) {
 		return entityManager.find(persistedClass, id);
 	}

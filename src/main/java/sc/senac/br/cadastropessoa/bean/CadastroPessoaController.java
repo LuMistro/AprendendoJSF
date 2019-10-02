@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -20,10 +21,20 @@ public class CadastroPessoaController implements Serializable {
 	private PessoaDao dao;
 	private List<Pessoa> pessoas;
 	
-	public CadastroPessoaController() {
+//	public CadastroPessoaController() {
+//		pessoa = new Pessoa();
+//		dao = new PessoaDao();
+//		pessoas = new ArrayList<>();
+//	}
+	
+	@PostConstruct
+	public void init() {
 		pessoa = new Pessoa();
 		dao = new PessoaDao();
 		pessoas = new ArrayList<>();
+		pessoas.addAll(dao.getList());
+		
+		
 	}
 
 	public void cadastrar() {
