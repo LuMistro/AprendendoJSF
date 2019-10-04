@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import sc.senac.br.cadastropessoa.dao.PessoaDao;
 import sc.senac.br.cadastropessoa.model.Pessoa;
@@ -20,27 +22,51 @@ public class CadastroPessoaController implements Serializable {
 	private Pessoa pessoa;
 	private PessoaDao dao;
 	private List<Pessoa> pessoas;
-	
+
 //	public CadastroPessoaController() {
 //		pessoa = new Pessoa();
 //		dao = new PessoaDao();
 //		pessoas = new ArrayList<>();
 //	}
-	
+
 	@PostConstruct
 	public void init() {
 		pessoa = new Pessoa();
 		dao = new PessoaDao();
 		pessoas = new ArrayList<>();
 		pessoas.addAll(dao.getList());
-		
-		
+
+	}
+
+	public void excluir() {
+		dao.remover(pessoa);
+		limpar();
+		buscar();
+
+		FacesMessage mensagem = new FacesMessage();
+		mensagem.setSeverity(FacesMessage.SEVERITY_INFO);
+		mensagem.setSummary("Pessoa excluída com sucesso!");
+		FacesContext.getCurrentInstance().addMessage(null, mensagem);
+
+	}
+
+	public void editar() {
+		System.out.println("Editou!");
 	}
 
 	public void cadastrar() {
-		pessoas.add(pessoa);
-		dao.salvar(pessoa);
-		pessoa = new Pessoa();
+		if (pessoa.getId() == null) {
+			dao.salvar(pessoa);
+		} else {
+			dao.atualizar(pessoa);
+		}
+
+		limpar();
+		buscar();
+	}
+
+	public void buscar() {
+		pessoas = dao.getList();
 	}
 
 	public void limpar() {

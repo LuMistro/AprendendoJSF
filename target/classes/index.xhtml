@@ -14,7 +14,7 @@
 
 	<div class="container">
 
-		<h:messages errorClass="erroForm" />
+		<h:messages globalOnly="true" infoClass="mensagemInfo" />
 
 		<h:form>
 
@@ -43,44 +43,54 @@
 					timeZone="#{initParam.timezone}" />
 			</h:inputText>
 
-			<h:commandButton value="Cadastrar" styleClass="cadastrar"
+			<h:commandButton value="Salvar" styleClass="cadastrar"
 				action="#{cadastroPessoaController.cadastrar}" />
 
 			<h:commandButton value="Limpar" styleClass="limpar"
 				action="#{cadastroPessoaController.limpar}" />
 		</h:form>
-
 		<hr></hr>
+		<h:form>
+			<h:dataTable var="p" value="#{cadastroPessoaController.pessoas}">
 
-		<table id="dados">
-			<thead>
-				<tr>
-					<th>Nome</th>
-					<th>E-mail</th>
-					<th>Nascimento</th>
-					<th>Idade</th>
-				</tr>
-			</thead>
-			<tbody>
-			
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{p.nome}" />
+				</h:column>
 
-			
-				<ui:repeat var="p" value="#{cadastroPessoaController.pessoas}">
-					<tr>
-						<td><h:outputText value="#{p.nome}" /></td>
-						<td><h:outputText value="#{p.email}" /></td>
-						<td><h:outputText value="#{p.nascimento}">
-								<f:convertDateTime pattern="dd/MM/yyyy"
-									timeZone="#{initParam.timezone}" />
-							</h:outputText></td>
-						<td>
-						<h:outputText value="#{p.idade}"/>
-						</td>
-					</tr>
-				</ui:repeat>
-			</tbody>
-		</table>
+				<h:column>
+					<f:facet name="header">E-mail</f:facet>
+					<h:outputText value="#{p.email}" />
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Nascimento</f:facet>
+					<h:outputText value="#{p.nascimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="#{initParam.timezone}" />
+					</h:outputText>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">Idade</f:facet>
+					<h:outputText value="#{p.idade}" />
+				</h:column>
+
+
+				<h:column headerClass="colunaAcoes">
+					<h:commandButton action="#{cadastroPessoaController.editar}"
+						image="/resources/imagens/edit-32x32.png">
+						<f:setPropertyActionListener value="#{p}"
+							target="#{cadastroPessoaController.pessoa}"></f:setPropertyActionListener>
+					</h:commandButton>
+					<h:commandButton action="#{cadastroPessoaController.excluir}"
+						image="/resources/imagens/remove-32x32.png">
+						<f:setPropertyActionListener value="#{p}"
+							target="#{cadastroPessoaController.pessoa}"></f:setPropertyActionListener>
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+		</h:form>
 	</div>
 </h:body>
-
 </html>

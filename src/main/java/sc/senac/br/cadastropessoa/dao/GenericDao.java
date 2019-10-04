@@ -41,14 +41,13 @@ public abstract class GenericDao<T, I extends Serializable> {
 		return entity;
 	}
 
-	public void remover(I id) {
-		T entity = encontrar(id);
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
-		T mergedEntity = entityManager.merge(entity);
-		entityManager.remove(mergedEntity);
+	public void remover(T entity) {
+//		T entity = encontrar(id);
+		entityManager.getTransaction().begin();
+		entityManager.remove(entity);
 		entityManager.flush();
-		tx.commit();
+		entityManager.getTransaction().commit();
+		
 	}
 
 	public List<T> getList() {
@@ -57,8 +56,10 @@ public abstract class GenericDao<T, I extends Serializable> {
 		query.from(persistedClass);
 		return entityManager.createQuery(query).getResultList();
 	}
-	
+
 	public T encontrar(I id) {
-		return entityManager.find(persistedClass, id);
+		T result = entityManager.find(persistedClass, id);
+		entityManager.close();
+		return result;
 	}
 }
